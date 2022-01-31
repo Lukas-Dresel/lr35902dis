@@ -4,18 +4,20 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="z80dis",
-    version="1.0.6",
-    author="Andrew Lamoureux",
+    name="lr35902dis",
+    version="1.0.0",
+    author="Lukas Dresel",
     author_email="foo@bar.com",
-    description="Z80 disassembler library",
+    description="lr35902 (GameBoy CPU) disassembler library",
     long_description=long_description, # load from README.md
     long_description_content_type="text/markdown",
-    url="https://github.com/lwerdna/z80dis",
+    url="https://github.com/Lukas-Dresel/lr35902dis",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: Public Domain",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Topic :: Games/Entertainment",
+        "Topic :: Software Development :: Disassemblers"
     ],
 )

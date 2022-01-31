@@ -2,16 +2,16 @@
 
 # what happens
 
-from z80dis import z80
+from lr35902dis import lr35902
 from struct import pack
 from binascii import hexlify
 
 ADDR = 0xDEAD
 
 def doit(data):
-    decoded = z80.decode(data, ADDR)
+    decoded = lr35902.decode(data, ADDR)
     hexstr = hexlify(data[0:decoded.len]).decode('utf-8')
-    disasm = z80.disasm(decoded)
+    disasm = lr35902.disasm(decoded)
     print('%04X: %s %s' % (ADDR, hexstr, disasm))
 
 print('1-byte')
