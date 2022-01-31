@@ -1,7 +1,7 @@
 # lr35902dis
 
 A python disassembler library for the LR35902 CPU (the CPU of the GameBoy, similar to a Z80 processor).
-This is an adaptation of (z80dis)[https://github.com/lwerdna/z80dis]. Any errors are probably mine, PRs welcome :).
+This is an adaptation of [z80dis](https://github.com/lwerdna/z80dis). Any errors are probably mine, PRs welcome :).
 
 # Use
 
