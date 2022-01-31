@@ -90,6 +90,8 @@ class OP(Enum):
     NONI = auto() # no operation (4 T-states), no interrupts
     # LOAD_EXCHANGE
     LD = auto()
+    LDI = auto() # load and increment: LD A, (HL+) and LD (HL+), A
+    LDD = auto() # load and decrement: LD A, (HL-) and LD (HL-), A
     POP = auto()
     PUSH = auto()
     MARKER_END_LOAD_EXCHANGE = auto()
@@ -181,9 +183,6 @@ class Decoded():
         self.op = None         # Z80_OP
         # list of (OPER_TYPE, VALUE)
         self.operands = []
-        # whether the entire instruction's result gets written to a reg
-        # (special case for DDCB, FDCB)
-        self.metaLoad = None
 
     def __str__(self):
         result = ''
@@ -338,9 +337,11 @@ def decode_unprefixed(data, addr, result):
                 result.operands.append((OPER_TYPE.REG_DEREF, REG.DE))
                 result.operands.append((OPER_TYPE.REG, REG.A))
             elif p == 2:
+                result.op = OP.LDI
                 result.operands.append((OPER_TYPE.REG_DEREF_INC, REG.HL))
                 result.operands.append((OPER_TYPE.REG, REG.A))
             elif p == 3:
+                result.op = OP.LDD
                 result.operands.append((OPER_TYPE.REG_DEREF_DEC, REG.HL))
                 result.operands.append((OPER_TYPE.REG, REG.A))
             if q:
@@ -652,11 +653,6 @@ def decoded2str(decoded):
         result += ' '
 
     result += ','.join([oper2str(*oper) for oper in decoded.operands])
-
-    if decoded.metaLoad:
-        (oper_type, oper_val) = decoded.metaLoad
-        assert oper_type == OPER_TYPE.REG
-        result = 'ld %s,%s' % (reg2str(oper_val), result)
 
     return result
 
