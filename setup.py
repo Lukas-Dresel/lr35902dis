@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="lr35902dis",
-    version="1.0.0",
+    version="1.0.2",
     author="Lukas Dresel",
     author_email="foo@bar.com",
     description="lr35902 (GameBoy CPU) disassembler library",

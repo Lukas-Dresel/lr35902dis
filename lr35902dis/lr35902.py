@@ -66,20 +66,6 @@ class REG(Enum):
     BC = auto()
     DE = auto()
     HL = auto()
-    # alternate register set
-    A_ = auto()
-    F_ = auto()
-    B_ = auto()
-    C_ = auto()
-    D_ = auto()
-    E_ = auto()
-    H_ = auto()
-    L_ = auto()
-    # 8 bit registers in 16-bit groups
-    AF_ = auto()
-    BC_ = auto()
-    DE_ = auto()
-    HL_ = auto()
     # special purpose registers
     SP = auto()
     PC = auto()
@@ -174,9 +160,10 @@ class PREFIX(Enum):
 # structs
 # ------------------------------------------------------------
 class Decoded():
-    def __init__(self):
+    def __init__(self, addr):
         self.status = DECODE_STATUS.ERROR
 
+        self.addr = addr
         self.len = 0
         # instruction type
         self.typ = None        # Z80_INSTRTYPE
@@ -185,15 +172,7 @@ class Decoded():
         self.operands = []
 
     def __str__(self):
-        result = ''
-
-        result += '%s\n' % str(self.op)
-        for i in range(len(self.operands)):
-            result += '.operands[%d] = %s' % (i, self.operands[i])
-            if i < len(self.operands)-1:
-                result += '\n'
-
-        return result
+        return f'{hex(self.addr)}: {self.op} {self.operands}'
 
 #------------------------------------------------------------------------------
 # DECODING
@@ -522,7 +501,7 @@ def decode_cb(data, addr, result):
         result.operands.append(TABLE_R[z])
 
 def decode(data, addr):
-    result = Decoded()
+    result = Decoded(addr)
     if not data:
         return result
 
